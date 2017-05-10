@@ -1,0 +1,179 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Journal Article
+% LaTeX Template
+% Version 1.4 (15/5/16)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com) with extensive modifications by
+% Vel (vel@LaTeXTemplates.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[twoside,twocolumn]{article}
+
+\usepackage{blindtext} % Package to generate dummy text throughout this template
+
+\usepackage[sc]{mathpazo} % Use the Palatino font
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\linespread{1.05} % Line spacing - Palatino needs more space between lines
+\usepackage{microtype} % Slightly tweak font spacing for aesthetics
+
+\usepackage[english]{babel} % Language hyphenation and typographical rules
+
+\usepackage[hmarginratio=1:1,top=32mm,columnsep=20pt]{geometry} % Document margins
+\usepackage[hang, small,labelfont=bf,up,textfont=it,up]{caption} % Custom captions under/above floats in tables or figures
+\usepackage{booktabs} % Horizontal rules in tables
+
+\usepackage{lettrine} % The lettrine is the first enlarged letter at the beginning of the text
+
+\usepackage{enumitem} % Customized lists
+\setlist[itemize]{noitemsep} % Make itemize lists more compact
+
+\usepackage{abstract} % Allows abstract customization
+\renewcommand{\abstractnamefont}{\normalfont\bfseries} % Set the "Abstract" text to bold
+\renewcommand{\abstracttextfont}{\normalfont\small\itshape} % Set the abstract itself to small italic text
+
+\usepackage{titlesec} % Allows customization of titles
+\renewcommand\thesection{\Roman{section}} % Roman numerals for the sections
+\renewcommand\thesubsection{\roman{subsection}} % roman numerals for subsections
+\titleformat{\section}[block]{\large\scshape\centering}{\thesection.}{1em}{} % Change the look of the section titles
+\titleformat{\subsection}[block]{\large}{\thesubsection.}{1em}{} % Change the look of the section titles
+
+\usepackage{fancyhdr} % Headers and footers
+\pagestyle{fancy} % All pages have headers and footers
+\fancyhead{} % Blank out the default header
+\fancyfoot{} % Blank out the default footer
+\fancyhead[C]{Running title $\bullet$ May 2016} % Custom header text
+\fancyfoot[RO,LE]{\thepage} % Custom footer text
+
+\usepackage{titling} % Customizing the title section
+
+\usepackage{hyperref} % For hyperlinks in the PDF
+
+\usepackage{graphicx}
+
+\usepackage{csquotes}
+\usepackage[style=ieee]{biblatex}
+
+\bibliography{biblio}
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\setlength{\droptitle}{-4\baselineskip} % Move the title up
+
+\pretitle{\begin{center}\normalsize Comments on : \\
+\Huge\bfseries} % Article title formatting
+\posttitle{\end{center}} % Article title closing formatting
+\title{Handbook of robotics \\ - chapter 36 - \\ World Modeling} % Article title
+\author{%
+\textsc{Virgile Daugé}\thanks{A thank you or further information} \\[1ex] % Your name
+\normalsize University of Lorraine \\ % Your institution
+\normalsize \href{mailto:virgile.dauge@inria.fr}{virgile.dauge@inria.fr} % Your email address
+%\and % Uncomment if 2 authors are required, duplicate these 4 lines if more
+%\textsc{Jane Smith}\thanks{Corresponding author} \\[1ex] % Second author's name
+%\normalsize University of Utah \\ % Second author's institution
+%\normalsize \href{mailto:jane@smith.com}{jane@smith.com} % Second author's email address
+}
+\date{\today} % Leave empty to omit a date
+\renewcommand{\maketitlehookd}{%
+
+%----------------------------------------------------------------------------------------
+%	Abstract
+%----------------------------------------------------------------------------------------
+
+\begin{abstract}
+\noindent The way to represent the world is very influent in scanning and modeling results.
+ This book chapter is listing different existing solutions.
+\end{abstract}
+}
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+% Print the title
+\maketitle
+
+%----------------------------------------------------------------------------------------
+%	ARTICLE CONTENTS
+%----------------------------------------------------------------------------------------
+
+\section{Models for Indoors and structured environements}
+\subsection{Occupancy grids}
+The space is divaded into cells, each cell have is own probability of being an obstacle.
+Mainly 2D grid of obstacle probability. Can be used in 3D. Used a lot for Slam.
+High memory requirements (directly depending on the resolution of the grid).
+Strongly sensor dependant (difficult to use with sonar for example cause is measurment area is quite large).
+
+\subsection{Line maps}
+Extracting lines from the environement, mainly by mean squares estimation.
+Require less memory.
+Scale better with the size of the environement.
+More acurate (not discretisation's resolution dependant).
+Not a closed-form solution.
+
+\subsection{Topological Maps}
+The environement is represented by a graph-like structure, in witch nodes are locally distinguishables places.
+A way to use it is to compute a voronoi graph, showing paths free from obstacles.
+Not really suited for mapping but can be usefull for navigation.
+
+\subsection{Landmark-Based Maps}
+Lighter than grid map, used in FASTSLAM
+
+%------------------------------------------------
+
+\section{Natural environements}
+\subsection{Elevation Grids}
+Using 2D grid of cells, where each cell contains an elevation.
+Good for representing unconsistent terrain.
+Bad for multi-level environemments.
+The cell size (and grid resolution) can be adaptative according to the distance to the robot for exemple).
+It's easy to use with Lidar (each point returned by the lidar can be a cell delimiter)
+
+\subsection{3D grids and points sets/point clouds}
+3D dense occupancy grids cost a lot of memory.
+
+Point cloud consist of storing each points returned by a sensor according to the same reference pose.
+Point clouds are more extensibles and scalable. However, the amount of data can be quite huge in prolongated scans.
+
+\subsection{Meshes}
+Representation surfaces with a set of polygones.
+Compact representation, and there is a lot of available mesh simplification algorythms.
+However, the extraction of surfaces can be really difficult in complex environements.
+Difficult to represent vegetation with continuous surfaces.
+Good for human visualisation.
+
+\subsection{Cost maps}
+Representing the space by the estimated cost of passing through.
+Common way for rovers is to compute the angle of the slope.
+Not really relevant for drones.
+
+\subsection{Semantic Attributes}
+Learning to recognize landmarks.
+Can be viewed as classifictation problem.
+Simple discrimination between obstacles and free region for navigation.
+Difficult to pick good resolution for classification, as it is strongly dependant to the type of the environement.
+
+%------------------------------------------------
+
+\section{Dynamic Environements}
+Dynamic object filtering by using feature-based tracking algorithm.
+
+%------------------------------------------------
+
+\section{Discussion}
+
+\printbibliography
+\end{document}
