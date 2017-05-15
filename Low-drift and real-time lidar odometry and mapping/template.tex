@@ -141,6 +141,8 @@ When adding more points to the pointcloud, they try to find ones in features reg
 \subsubsection{Motion estimation}
 They estimate a geometric relationship between a point and his feature line/planar area.
 And Computing the sum of all geometric transformations give the estimated motion of the lidar.
+\subsubsection{lidar odometry}
+produces distortion-free pointclouds and estimates velocity.
 
 
 
@@ -149,15 +151,19 @@ And Computing the sum of all geometric transformations give the estimated motion
 %------------------------------------------------
 
 \section{Results}
-\blindtext
-
+Works better on manufactured environnement, in consequence of using lines and flat area, who are more suited for human buildings.
+\begin{itemize}
+  \item 1\% drift in interior
+  \item 2.5\% drift in exterior
+\end{itemize}
+Their motion estimation is quite good for slow/linear motions, adding the IMU allows to perform better with nonlinear motion.
 %------------------------------------------------
 
 \section{Discussion}
 \subsection{Current state}
-\blindtext
+Working quite well according to the paper, a lot less according to the tests of distributed software. (Without IMU).
 \subsection{Possibles enhancements}
-\blindtext
+Loop Closure
 
 \printbibliography
 \end{document}
