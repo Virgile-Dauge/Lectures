@@ -14,7 +14,6 @@
 % CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %----------------------------------------------------------------------------------------
 %	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
 %----------------------------------------------------------------------------------------
@@ -61,9 +60,13 @@
 
 \usepackage{hyperref} % For hyperlinks in the PDF
 
+\usepackage{graphicx}
+
 \usepackage{csquotes}
 \usepackage[style=ieee]{biblatex}
+
 \bibliography{biblio}
+
 %----------------------------------------------------------------------------------------
 %	TITLE SECTION
 %----------------------------------------------------------------------------------------
@@ -73,7 +76,7 @@
 \pretitle{\begin{center}\normalsize Comments on : \\
 \Huge\bfseries} % Article title formatting
 \posttitle{\end{center}} % Article title closing formatting
-\title{Article Title} % Article title
+\title{\citetitle{example}} % Article title
 \author{%
 \textsc{Virgile Daugé}\thanks{A thank you or further information} \\[1ex] % Your name
 \normalsize University of Lorraine \\ % Your institution
@@ -85,8 +88,13 @@
 }
 \date{\today} % Leave empty to omit a date
 \renewcommand{\maketitlehookd}{%
+
+%----------------------------------------------------------------------------------------
+%	Abstract
+%----------------------------------------------------------------------------------------
+
 \begin{abstract}
-\noindent \blindtext % Dummy abstract text - replace \blindtext with your abstract text
+\noindent \blindtext
 \end{abstract}
 }
 
@@ -103,70 +111,27 @@
 
 \section{Introduction}
 
-\lettrine[nindent=0em,lines=3]{L} orem ipsum dolor sit amet, consectetur adipiscing elit.
-\blindtext % Dummy text
-
-\blindtext % Dummy text
+\lettrine[nindent=0em,lines=3]{M}anifold representation is an higher dimention space based map who is described by:
+\blindtext
 
 %------------------------------------------------
 
 \section{Methods}
+\blindtext
 
-Maecenas sed ultricies felis. Sed imperdiet dictum arcu a egestas.
-\begin{itemize}
-\item Donec dolor arcu, rutrum id molestie in, viverra sed diam
-\item Curabitur feugiat
-\item turpis sed auctor facilisis
-\item arcu eros accumsan lorem, at posuere mi diam sit amet tortor
-\item Fusce fermentum, mi sit amet euismod rutrum
-\item sem lorem molestie diam, iaculis aliquet sapien tortor non nisi
-\item Pellentesque bibendum pretium aliquet
-\end{itemize}
-\blindtext % Dummy text
-
-Text requiring further explanation\footnote{Example footnote}.
 
 %------------------------------------------------
 
 \section{Results}
-
-\begin{table}
-\caption{Example table}
-\centering
-\begin{tabular}{llr}
-\toprule
-\multicolumn{2}{c}{Name} \\
-\cmidrule(r){1-2}
-First name & Last Name & Grade \\
-\midrule
-John & Doe & $7.5$ \\
-Richard & Miles & $2$ \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\blindtext % Dummy text
-
-\begin{equation}
-\label{eq:emc}
-e = mc^2
-\end{equation}
-
-\blindtext % Dummy text
+\blindtext
 
 %------------------------------------------------
 
 \section{Discussion}
-
-\subsection{Subsection One}
-
-A statement requiring citation \cite{howard_multirobot_2006}.
-
-\blindtext % Dummy text
-
-\subsection{Subsection Two}
-
-\blindtext % Dummy text
+\subsection{Current state}
+\blindtext
+\subsection{Possibles enhancements}
+\blindtext
 
 \printbibliography
 \end{document}
