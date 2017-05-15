@@ -127,13 +127,23 @@ Using IMU in multimodal system can compensate intermittent GPS \cite{scherer_riv
 
 IMU and loop closure alows to build large indoors maps in underground mines : \cite{yoshida_efficient_2014}.
 
-
-\blindtext
+They used 4 different lidars for testing purposes.
 
 %------------------------------------------------
 
 \section{Methods}
-\blindtext
+\subsection{Lidar odometry}
+\subsubsection{feature point extraction}
+They select feature point on sharp edges and planar surfaces patches.
+they evaluate smoothness of local surface, then sort them, considering smoother points as planar and sharpest points as edges.
+\subsubsection{Feature point correspondence}
+When adding more points to the pointcloud, they try to find ones in features region as lines and planar areas.
+\subsubsection{Motion estimation}
+They estimate a geometric relationship between a point and his feature line/planar area.
+And Computing the sum of all geometric transformations give the estimated motion of the lidar.
+
+
+
 
 
 %------------------------------------------------
