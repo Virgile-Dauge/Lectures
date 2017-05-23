@@ -1,0 +1,160 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Journal Article
+% LaTeX Template
+% Version 1.4 (15/5/16)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com) with extensive modifications by
+% Vel (vel@LaTeXTemplates.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[twoside,twocolumn]{article}
+
+\usepackage{blindtext} % Package to generate dummy text throughout this template
+
+\usepackage[sc]{mathpazo} % Use the Palatino font
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\linespread{1.05} % Line spacing - Palatino needs more space between lines
+\usepackage{microtype} % Slightly tweak font spacing for aesthetics
+
+\usepackage[english]{babel} % Language hyphenation and typographical rules
+
+\usepackage[hmarginratio=1:1,top=32mm,columnsep=20pt]{geometry} % Document margins
+\usepackage[hang, small,labelfont=bf,up,textfont=it,up]{caption} % Custom captions under/above floats in tables or figures
+\usepackage{booktabs} % Horizontal rules in tables
+
+\usepackage{lettrine} % The lettrine is the first enlarged letter at the beginning of the text
+
+\usepackage{enumitem} % Customized lists
+\setlist[itemize]{noitemsep} % Make itemize lists more compact
+
+\usepackage{abstract} % Allows abstract customization
+\renewcommand{\abstractnamefont}{\normalfont\bfseries} % Set the "Abstract" text to bold
+\renewcommand{\abstracttextfont}{\normalfont\small\itshape} % Set the abstract itself to small italic text
+
+\usepackage{titlesec} % Allows customization of titles
+\renewcommand\thesection{\Roman{section}} % Roman numerals for the sections
+\renewcommand\thesubsection{\roman{subsection}} % roman numerals for subsections
+\titleformat{\section}[block]{\large\scshape\centering}{\thesection.}{1em}{} % Change the look of the section titles
+\titleformat{\subsection}[block]{\large}{\thesubsection.}{1em}{} % Change the look of the section titles
+
+\usepackage{fancyhdr} % Headers and footers
+\pagestyle{fancy} % All pages have headers and footers
+\fancyhead{} % Blank out the default header
+\fancyfoot{} % Blank out the default footer
+\fancyhead[C]{Running title $\bullet$ May 2016} % Custom header text
+\fancyfoot[RO,LE]{\thepage} % Custom footer text
+
+\usepackage{titling} % Customizing the title section
+
+\usepackage{hyperref} % For hyperlinks in the PDF
+
+\usepackage{graphicx}
+
+\usepackage{csquotes}
+\usepackage[style=ieee]{biblatex}
+
+\bibliography{biblio}
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\setlength{\droptitle}{-4\baselineskip} % Move the title up
+
+\pretitle{\begin{center}\normalsize Comments on : \\
+\Huge\bfseries} % Article title formatting
+\posttitle{\end{center}} % Article title closing formatting
+\title{\citetitle{pomerleau_comparing_2013}} % Article title
+\author{%
+\textsc{Virgile Daugé}\thanks{A thank you or further information} \\[1ex] % Your name
+\normalsize University of Lorraine \\ % Your institution
+\normalsize \href{mailto:virgile.dauge@inria.fr}{virgile.dauge@inria.fr} % Your email address
+%\and % Uncomment if 2 authors are required, duplicate these 4 lines if more
+%\textsc{Jane Smith}\thanks{Corresponding author} \\[1ex] % Second author's name
+%\normalsize University of Utah \\ % Second author's institution
+%\normalsize \href{mailto:jane@smith.com}{jane@smith.com} % Second author's email address
+}
+\date{\today} % Leave empty to omit a date
+\renewcommand{\maketitlehookd}{%
+
+%----------------------------------------------------------------------------------------
+%	Abstract
+%----------------------------------------------------------------------------------------
+
+\begin{abstract}
+\noindent Description of ICP test protocols and experiments on several open Data sets. Discuss about ICP problems and solutions. Optimisation of ICP parameters.
+\end{abstract}
+}
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+% Print the title
+\maketitle
+
+%----------------------------------------------------------------------------------------
+%	ARTICLE CONTENTS
+%----------------------------------------------------------------------------------------
+
+\section{Introduction}
+
+\lettrine[nindent=0em,lines=3]{T}They highlight the need for a protocol for comparing ICP variants, due to the huge number of "coocking" variants and the actual difficulty to implement/test/compare them without re-doing the whole job.
+They present the Iterativee closest point algorythm, who consist in matching two sets of points to deduce the transformation between them and the 6 DOF motion of the sensor.
+
+%------------------------------------------------
+
+\section{Methods}
+They created a modular ICP chain, decoupling differents tasks:
+\begin{itemize}
+  \item data filtering,
+  \item matching,
+  \item Outlier Filtering
+  \item Error minimisation
+\end{itemize}
+
+This chain is available in their library hosted on Github :\href{https://github.com/ethz-asl/libpointmatcher}{ethz-asl/libpointmatcher}.
+They also provide standardized interfaces between each step.
+They use Stop and Scan technique.
+%------------------------------------------------
+
+\section{Results}
+\subsection{Overlap sensitivity}
+Trought experiements, they highlight the registration sensitivity to scan overlap. More the overlap between scan is important, better will be the result.
+ICP is working well when several scans are made in the same room, but is encounting some difficulties when scan is taken from a opening area like a door.
+\subsection{ICP parameters}
+There is a lot of parameters all along the ICP chain whatever the types of treatments choosen, often depending on the sensor.
+For example, if we choose to keep only close points, we need to determine wich distance is the relevant one for discrimination.
+Another example, if we choose to randomly sub-sampling pointClouds, we need to determine how many points are sufficent for good registration, allowing to reduce computation requirements.
+It's possible to optimize those paramters in a fixed project.
+\subsection{Point-to-point vs point-to-plane}
+Point to plane variant seems to be more efficient in interior/structured buildings. However, in natural/unstructured environement, the point-to-plane is not that relevant.
+
+\subsection{Number of points}
+Depending on the sensor/algorythm, there is a number of points where additionnal points will only cost more computation time for a very low gain in precision.
+%------------------------------------------------
+
+\section{Discussion}
+\subsection{Current state}
+Their library seems quite complete, i really need to do some testing on it.
+\subsection{Possibles enhancements}
+Find a way to choose relevant points instead of a random selection can be a real imporvement.
+Maybe working on new types of landmarks, like more complex/recognizable can allow better precision.
+
+Using more complex primitives (like basic geometric shapes) is an interessant track.
+Learning to recognize relevant points/structures in a pointcloud can maybe improve the whole process.
+
+\printbibliography
+\end{document}
