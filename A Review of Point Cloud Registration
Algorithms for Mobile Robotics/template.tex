@@ -76,7 +76,7 @@
 \pretitle{\begin{center}\normalsize Comments on : \\
 \Huge\bfseries} % Article title formatting
 \posttitle{\end{center}} % Article title closing formatting
-\title{\citetitle{pomerleau_comparing_2013}} % Article title
+\title{\citetitle{pomerleau_review_2015}} % Article title
 \author{%
 \textsc{Virgile Daugé}\thanks{A thank you or further information} \\[1ex] % Your name
 \normalsize University of Lorraine \\ % Your institution
@@ -94,7 +94,8 @@
 %----------------------------------------------------------------------------------------
 
 \begin{abstract}
-\noindent Description of ICP test protocols and experiments on several open Data sets. Discuss about ICP problems and solutions. Optimisation of ICP parameters.
+\noindent The scope of this work is to present registration algorithms and their
+use in mobile robotics.
 \end{abstract}
 }
 
@@ -111,50 +112,116 @@
 
 \section{Introduction}
 
-\lettrine[nindent=0em,lines=3]{T}They highlight the need for a protocol for comparing ICP variants, due to the huge number of "coocking" variants and the actual difficulty to implement/test/compare them without re-doing the whole job.
-They present the Iterativee closest point algorythm, who consist in matching two sets of points to deduce the transformation between them and the 6 DOF motion of the sensor.
+\lettrine[nindent=0em,lines=3]{R}egistration algorithms associate sets of data
+into a common coordinate system by minimizing the alignment error.
 
+PB : Unless two identical shapes are registered
+together, outliers that are not present in both shapes need to be iden-
+tified.
+
+primitives derived from points are too sensitive to
+noise and are not stable in moving systems with current (1994) sens-
+ing capabilities.
+=> points were more reliable
+
+need to handle dynamic elements.
+
+difficulty to find a single versatile ICP version.
+
+The aim of geometric registration is to be able to represent a shape,
+called reading, in the same coordinate frame as another, called
+reference.
+This is equivalent to finding the transformation of reading
+that best aligns it to reference.
+
+\begin{figure}
+  \includegraphics[angle=90,width=7cm]{ICPalgo}
+  \caption{ICP algorithm}
+  \label{fig:ICPalgo}
+\end{figure}
+
+\subsection{sensors}
+\subsubsection{laser rangefinders (lidars)}
+\subsubsection{cameras}
+Light field capture simultaneously multiple focus
+points and reconstruct images with different depth of fields out of the
+recorded data.
+
+
+\subsection{transformations}
+\begin{description}
+  \item[Rigid transformation] is a combination of translation and rotation.
+It is also known as a Euclidean transformation.
+\item[Similarity transform] is a combination of rigid transformation and
+uniform scaling.
+\item[Affine transform] is a combination of rigid transformation, nonuni-
+form scaling and shear.
+\item[Orthogonal projection] is a group of transformation based on vector
+and planar projection.
+\end{description}
+
+The initial transformation is a sensitive part of registration al-
+gorithms when the data association is realized mainly based on geo-
+metric features.
+
+\subsection{feature enhancement}
+most of the shapes encountered in the a real environ-
+ment are too complex to be completely synthesized with parameters
+
+fives types of primitives :
+\begin{itemize}
+  \item point,
+  \item line,
+  \item plane,
+  \item curve and
+  \item quadric
+\end{itemize}
+
+
+The ratio of noise to signal is often higher in
+robotics than in object modeling, thus rendering many complex mod-
+eling algorithms ineffective. This could explain why most registration
+algorithms applied to robotics tend to select a shape representation
+very close to the raw measurements (i.e., points) instead of relying on
+faulty surface reconstruction.
+
+\subsection{Descriptor enhancement}
+
+using the intensity remission
+combined with cameras to add color information
+techniques are used to reduce the number of features: random sampling, grid projection, octree and bounding box.
+
+\subsection{data association}
+In laser rangefinder based
+matching, feature positions are quite accurate compared to descrip-
+tor uniqueness but the initial transformation needs to be within
+a maximum range to avoid local minima
+
+When using descriptors, the
+matching becomes independent of the initial position, but may fail for
+repetitive elements
+
+
+kD-tree is better in terms of accuracy, query time, build time,
+and memory usage
 %------------------------------------------------
 
 \section{Methods}
-They created a modular ICP chain, decoupling differents tasks:
-\begin{itemize}
-  \item data filtering,
-  \item matching,
-  \item Outlier Filtering
-  \item Error minimisation
-\end{itemize}
+\blindtext
 
-This chain is available in their library hosted on Github :\href{https://github.com/ethz-asl/libpointmatcher}{ethz-asl/libpointmatcher}.
-They also provide standardized interfaces between each step.
-They use Stop and Scan technique.
+
 %------------------------------------------------
 
 \section{Results}
-\subsection{Overlap sensitivity}
-Trought experiements, they highlight the registration sensitivity to scan overlap. More the overlap between scan is important, better will be the result.
-ICP is working well when several scans are made in the same room, but is encounting some difficulties when scan is taken from a opening area like a door.
-\subsection{ICP parameters}
-There is a lot of parameters all along the ICP chain whatever the types of treatments choosen, often depending on the sensor.
-For example, if we choose to keep only close points, we need to determine wich distance is the relevant one for discrimination.
-Another example, if we choose to randomly sub-sampling pointClouds, we need to determine how many points are sufficent for good registration, allowing to reduce computation requirements.
-It's possible to optimize those paramters in a fixed project.
-\subsection{Point-to-point vs point-to-plane}
-Point to plane variant seems to be more efficient in interior/structured buildings. However, in natural/unstructured environement, the point-to-plane is not that relevant.
+\blindtext
 
-\subsection{Number of points}
-Depending on the sensor/algorythm, there is a number of points where additionnal points will only cost more computation time for a very low gain in precision.
 %------------------------------------------------
 
 \section{Discussion}
 \subsection{Current state}
-Their library seems quite complete, i really need to do some testing on it.
+\blindtext
 \subsection{Possibles enhancements}
-Find a way to choose relevant points instead of a random selection can be a real imporvement.
-Maybe working on new types of landmarks, like more complex/recognizable can allow better precision.
-
-Using more complex primitives (like basic geometric shapes) is an interessant track.
-Learning to recognize relevant points/structures in a pointcloud can maybe improve the whole process.
+\blindtext
 
 \printbibliography
 \end{document}
