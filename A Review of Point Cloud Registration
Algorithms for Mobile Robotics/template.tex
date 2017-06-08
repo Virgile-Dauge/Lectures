@@ -189,7 +189,8 @@ faulty surface reconstruction.
 
 using the intensity remission
 combined with cameras to add color information
-techniques are used to reduce the number of features: random sampling, grid projection, octree and bounding box.
+techniques are used to reduce the number of features: random sampling,
+grid projection, octree and bounding box.
 
 \subsection{data association}
 In laser rangefinder based
@@ -197,12 +198,38 @@ matching, feature positions are quite accurate compared to descrip-
 tor uniqueness but the initial transformation needs to be within
 a maximum range to avoid local minima
 
-When using descriptors, the
-matching becomes independent of the initial position, but may fail for
-repetitive elements
+When using descriptors, the matching becomes independent of the initial position,
+but may fail for repetitive elements
 
 kD-tree is better in terms of accuracy, query time, build time,
 and memory usage
+
+\subsubsection{Outlier filter}
+outlier filters are used to reduce the impact of erroneous matches
+\begin{description}
+  \item[Rejection] based on features, a threshold on euclidian distance is used
+  \item[Weighting] weighting functions can consist of the ratio of mean distance
+  over each paired distances and eventually multiplying by a reflectance value
+\end{description}
+
+\subsection{Error Minimization}
+\subsubsection{shape morphing}
+Several ways to perform data association the naive one is to do point-to-point.
+When a primitive with higher dimensionality is matched with a lower one,
+it is morphed via projective geometry to adapt to its coun-
+terpart
+\subsubsection{optimization}
+\begin{itemize}
+  \item Singular Value Decomposition (SVD) \cite{arun_least-squares_1987}
+  \item quaternions \cite{horn_closed-form_1987}
+  \item orthonormal matrices \cite{horn_closed_1988}
+  \item dual quaternions \cite{walker_estimating_1991}
+\end{itemize}
+
+point-to-plane : linearization based on small angle approximation \cite{chen_object_1992}
+
+objective functions for point cloud alignment rely on histogram correlation \cite{bosse_map_2008},
+tensor voting \cite{reyes_registration_2007}, or Hough transform \cite{lowe_distinctive_2004}
 %------------------------------------------------
 
 \section{Methods}
