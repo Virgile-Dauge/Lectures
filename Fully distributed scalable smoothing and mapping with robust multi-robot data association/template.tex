@@ -1,0 +1,255 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Journal Article
+% LaTeX Template
+% Version 1.4 (15/5/16)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com) with extensive modifications by
+% Vel (vel@LaTeXTemplates.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[twoside,twocolumn]{article}
+
+\usepackage{blindtext} % Package to generate dummy text throughout this template
+
+\usepackage[sc]{mathpazo} % Use the Palatino font
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\linespread{1.05} % Line spacing - Palatino needs more space between lines
+\usepackage{microtype} % Slightly tweak font spacing for aesthetics
+
+\usepackage[english]{babel} % Language hyphenation and typographical rules
+
+\usepackage[hmarginratio=1:1,top=32mm,columnsep=20pt]{geometry} % Document margins
+\usepackage[hang, small,labelfont=bf,up,textfont=it,up]{caption} % Custom captions under/above floats in tables or figures
+\usepackage{booktabs} % Horizontal rules in tables
+
+\usepackage{lettrine} % The lettrine is the first enlarged letter at the beginning of the text
+
+\usepackage{enumitem} % Customized lists
+\setlist[itemize]{noitemsep} % Make itemize lists more compact
+
+\usepackage{abstract} % Allows abstract customization
+\renewcommand{\abstractnamefont}{\normalfont\bfseries} % Set the "Abstract" text to bold
+\renewcommand{\abstracttextfont}{\normalfont\small\itshape} % Set the abstract itself to small italic text
+
+\usepackage{titlesec} % Allows customization of titles
+\renewcommand\thesection{\Roman{section}} % Roman numerals for the sections
+\renewcommand\thesubsection{\roman{subsection}} % roman numerals for subsections
+\titleformat{\section}[block]{\large\scshape\centering}{\thesection.}{1em}{} % Change the look of the section titles
+\titleformat{\subsection}[block]{\large}{\thesubsection.}{1em}{} % Change the look of the section titles
+
+\usepackage{fancyhdr} % Headers and footers
+\pagestyle{fancy} % All pages have headers and footers
+\fancyhead{} % Blank out the default header
+\fancyfoot{} % Blank out the default footer
+\fancyhead[C]{Running title $\bullet$ May 2016} % Custom header text
+\fancyfoot[RO,LE]{\thepage} % Custom footer text
+
+\usepackage{titling} % Customizing the title section
+
+\usepackage{hyperref} % For hyperlinks in the PDF
+
+\usepackage{graphicx}
+
+\usepackage{csquotes}
+\usepackage[style=ieee,backend=bibtex]{biblatex}
+
+\bibliography{biblio}
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\setlength{\droptitle}{-4\baselineskip} % Move the title up
+
+\pretitle{\begin{center}\normalsize Comments on : \\
+\Huge\bfseries} % Article title formatting
+\posttitle{\end{center}} % Article title closing formatting
+\title{\citetitle{cunningham_fully_2012}} % Article title
+\author{%
+\textsc{Virgile Daugé}\thanks{A thank you or further information} \\[1ex] % Your name
+\normalsize University of Lorraine \\ % Your institution
+\normalsize \href{mailto:virgile.dauge@inria.fr}{virgile.dauge@inria.fr} % Your email address
+%\and % Uncomment if 2 authors are required, duplicate these 4 lines if more
+%\textsc{Jane Smith}\thanks{Corresponding author} \\[1ex] % Second author's name
+%\normalsize University of Utah \\ % Second author's institution
+%\normalsize \href{mailto:jane@smith.com}{jane@smith.com} % Second author's email address
+}
+\date{\today} % Leave empty to omit a date
+\renewcommand{\maketitlehookd}{%
+
+%----------------------------------------------------------------------------------------
+%	Abstract
+%----------------------------------------------------------------------------------------
+
+\begin{abstract}
+\noindent  This  paper’s  focus  is  on  the  front-end  data
+association  system. DDF-SAM algorithm provides a decentralized communication and inference
+scheme, but did not address the crucial issue of data association. RANSAC-based, approach for
+performing the between-robot data associations and initialization of relative frames of reference. They focus  on  the  multi-robot  perception
+problem,  and  present  an  experimentally  validated  end-to-end  multi-robot  mapping  framework
+\end{abstract}
+}
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+% Print the title
+\maketitle
+
+%----------------------------------------------------------------------------------------
+%	ARTICLE CONTENTS
+%----------------------------------------------------------------------------------------
+
+\section{Introduction}
+
+\lettrine[nindent=0em,lines=3]{T}The inspiration for DDF-SAM \cite{cunningham_ddf-sam:_2010} was decentralized data
+fusion (DDF). Most of the work is comming from collaborative localization communnity \cite{bailey_decentralised_2011,bahr_consistent_2009}.
+
+Other approaches :
+\begin{itemize}
+  \item Smoothing and mapping \cite{andersson_c-sam:_2008}
+  \item relative pose graphs \cite{kim_multiple_2010}
+  \item particle filters \cite{howard_multi-robot_2006,carlone_rao-blackwellized_2010}
+  \item manifold representaions \cite{howard_multirobot_2006}
+  \item divide and conquer with locally optimized maps \cite{ni_multi-level_2010}
+\end{itemize}
+
+Single Robot data association has been studied extensively from
+Nearest Neighbor \cite{} to more complex Joint Compatibility Branch
+and Bound \cite{neira_data_2001}.
+
+The RANSAC \cite{fischler_random_1981} approach to data association
+in the presence of outliers has become a staple algorithm in
+computer vision for efficiently matching landmarks across frames, with variations to exploit
+domain  structure,  such  as  GroupSAC  \cite{ni_groupsac:_2009}.
+
+Recent  work
+has addressed the decentralized resolution of inconsistencies
+\cite{aragues_consistent_2011},  but  the  problem  had  yet  to  be  solved  sufficiently  for
+real-time performance in robot systems
+
+%------------------------------------------------
+
+\section{Problem description}
+We  focus  on  the  problem  in  which  a  robot
+$r$
+jointly
+estimates its trajectory
+$X^r$
+and a map of landmarks
+$L$
+both
+within its local sensor range, as well as landmarks observed
+by neighboring robots.
+
+We consider a graph where both robot poses
+and landmarks are nodes and measurements are represented
+by edges, and wish to solve for the most probable configura-
+tion.
+
+The  key
+intuition   for   this   approach   to   decentralized   inference   is
+solving  the  local  SLAM  problem  on  each  robot  and  then
+distributing  condensed  versions  of  these  local  solutions  to
+other robots, which can solve for the full neighborhood map.
+
+
+%------------------------------------------------
+
+\section{DDF-SAM}
+Composed of 3 main modules :
+\begin{description}
+  \item[Local Mapping Module
+:]  optimizes  for  the  full  trajec-
+tory and landmark map, then compresses a local map
+for broadcast to neighboring robots.
+ \item [Communications Module
+:]  updates  a  cache  of  con-
+densed maps from many robots.
+\item [Neighborhood Mapping Module
+:] jointly estimates over
+landmarks in the robot’s neighborhood graph and rel-
+ative coordinate frames to yield a
+neighborhood map
+.
+\end{description}
+
+%------------------------------------------------
+
+\section{Multi-Robot Data asociation}
+the multi-robot
+data  association  module  uses  a  triangulation-based  robust
+estimator  for  matching  feature  maps.
+
+\subsection{triangle map matching}
+A  direct  application  of  RANSAC  \cite{fischler_random_1981}  would  randomly
+sample  (without  replacement)  two  points  from  the  neighborhood  landmarks
+$L$
+and  the  incoming  landmarks
+$L^a$
+as
+putatives,  compute  the  corresponding  transformation  and
+verify it by counting the number of matched landmarks.
+Problem : there  are  exponentially  many  transformations  to
+verify.
+
+their approach  first  computes  a  Delaunay  triangulation
+of  the  landmark  positions  in
+$L$
+and
+$L^a$
+,  and  then  applies
+RANSAC on a set of putatives generated from the centroids
+of  similar  triangles.
+
+They choose to use a Delaunay triangulation as a geometric
+feature  because  :
+\begin{itemize}
+  \item it  is  unique,
+  \item invariant  to  reference  frame,
+  \item and  biases  the  set  of  putatives  towards  conservative  data
+  associations
+  \item can be computed in $\Theta
+(
+n
+log
+n
+)$
+\end{itemize}
+Then they matches the two sets of Triangles with RANSAC \cite{fischler_random_1981}.
+
+Possible enhancement : GroupSAC \cite{ni_groupsac:_2009} or PROSAC \cite{chum_matching_2005}.
+
+\section{Experiments}
+\subsection{softwares}
+
+The  graphical  inference  and  optimization
+engine  used  is  the  GTSAM  library,  with  local  optimization
+performed  with  an  improved  version  of  the  iSAM \cite{kaess_isam:_2008}.
+
+he  neighborhood  optimization  approach  uses
+batch  Levenberg-Marquardt  optimization.
+
+We  perform  2D
+triangulation with the Triangle library \cite{shewchuk_triangle:_1996}.
+
+PB : Not directly usable in 3D.
+
+\subsection{environnement & hardware}
+Landmarks are provided by a pole detector from laser range measurements.
+
+\printbibliography
+\end{document}
