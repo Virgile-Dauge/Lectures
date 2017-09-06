@@ -1,0 +1,99 @@
+\documentclass[twoside,twocolumn]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage[english]{babel}
+\usepackage{geometry}
+
+\usepackage{abstract} % Allows abstract customization
+\renewcommand{\abstractnamefont}{\normalfont\bfseries} % Set the "Abstract" text to bold
+\renewcommand{\abstracttextfont}{\normalfont\small\itshape} % Set the abstract itself to small italic text
+
+
+\usepackage{hyperref} % For hyperlinks in the PDF
+
+\usepackage{csquotes}
+\usepackage[style=ieee,backend=bibtex]{biblatex}
+
+\bibliography{Thesis}
+
+\title{Research review on SLAM}
+
+\author{%
+\textsc{Virgile Daugé}  \\[1ex] % Your name
+\normalsize University of Lorraine \\ % Your institution
+\normalsize \href{mailto:virgile.dauge@inria.fr}{virgile.dauge@inria.fr} % Your email address
+}
+
+\begin{abstract}
+\noindent  Goal : present what I have learned so far in SLAM.
+\end{abstract}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+Qu'est-ce que le slam ?
+principes de base + fondations historiques
+
+\section{Difficultés}
+Domaine vaste et très développé :
+termes confus (SLAM, SAM, VisualSlam,LidarSlam...)
+Beaucoup d'étapes d'algorithmes utilisés dans les différentes approches.
+Difficulté de juger de la validité des propositions (pas de benchmarks/comparaisons avec d'autres approches dans la litérature.)
+
+\section{Décomposition en sous-problèmes}
+\subsection{Localisation ET mapping}
+Deux problèmes distincs sont addressés ici, la localisation et la cartographie.
+La localisation (à minima l'estimation du mouvement) est la première étape,
+et est essentielle dans la construction de la carte.
+Il s'agit là d'estimer le mouvement réalisé par le capteur (et/ou)
+l'environnement de la manière la plus précise possible, afin d'être par la
+suite capable de construire la carte par superposition des données de capteurs
+(caméra, lidar, wifi, sonar, capteur environnemental etc...).
+Toutefois comme vous pouvez l'imaginer, ni la localisation ni la cartographie
+ne sont des problèmes triviaux, il est donc préférable de les séparer en tâches
+plus simples.
+\subsection{Décomposition plus détaillée}
+\subsubsection{mesure}
+\subsubsection{association des données}
+\subsubsection{lissage/optimisation de la trajectoire}
+\subsubsection{correction de la dérive}
+à court terme en recalant les mesures régulièrement sur la géometrie de
+l'environnement scanné par exemple.
+Au long terme en essayant de reconnaitre les lieux déjà visités.
+\subsubsection{création de la carte}
+Cela consiste notamment en la superposition des données issues des capteurs
+(images, nuages de points, mesures de qualité de l'air etc ...).
+Il y a de nombreuses façons de procéder, sans même compter les différentes
+optimisations nécessaire à l'exploitabilité de la carte dans des conditions
+réelles. En effet, une carte composée d'un nuage de point précis peut vite
+demander plus de ressources mémoires/stockage que ce que la plupart des
+systèmes actuels sont à même de fournir (à moins de disposer d'un supercalculateur.)
+
+\subsubsection{amélioration de la carte}
+
+Il y a ici de nombreuses optimisations possibles, tant en terme de consomation de ressources,
+d'amélioration offline de la précision, d'ajout de contenu par extrapolation
+
+Opérations couteuses
+
+décimation
+génération de mesh
+classification de points
+detection d'objets
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
