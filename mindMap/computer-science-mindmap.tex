@@ -1,0 +1,54 @@
+% Author: Till Tantau
+% Source: The PGF/TikZ manual
+\documentclass{article}
+
+\usepackage{tikz}
+\usetikzlibrary{mindmap,trees}
+\usepackage{verbatim}
+
+\begin{document}
+\pagestyle{empty}
+
+\begin{comment}
+:Title: Computer science mindmap
+:Tags: Manual, Mindmap
+
+Version 1.09 of PGF/TikZ added a library for drawing mindmaps. Here's an example
+from the manual.
+
+| Author: Till Tantau
+| Source: The PGF/TikZ manual
+
+\end{comment}
+
+\begin{tikzpicture}
+ \path[mindmap,concept color=black,text=white]
+ \begin{scope}[mindmap, concept color=orange, text=white]
+  \node [concept] {Informatique}[clockwise from=-5]
+  child {node [concept] (log) {M{\'e}thodes cat{\'e}goriques}}
+  child {node [concept] (alg) {Algorithmique}}
+  child {node [concept] (cod) {Compression \& transmission}}
+  child {node [concept] (img) {Tra{\^i}tement des images}}
+  child {node [concept] (opt) {Optimisation}}
+  child {node [concept] (res) {R{\'e}seaux}};
+ \end{scope}
+ node[concept] {Robotics}
+ [clockwise from=0]
+ child[concept color=green!50!black] {
+  node[concept] {environement}
+  [clockwise from=90]
+  child { node[concept] {algorithms} }
+  child { node[concept] {data structures} }
+  child { node[concept] {pro\-gramming languages} }
+  child { node[concept] {software engineer\-ing} }
+ }
+ child[concept color=blue] {
+  node[concept] {applied}
+  [clockwise from=-30]
+  child { node[concept] {databases} }
+  child { node[concept] {WWW} }
+ }
+ child[concept color=red] { node[concept] {technical} }
+ child[concept color=cyan] { node[concept] {coucou} }
+ child[concept color=orange] { node[concept] {theoretical} };
+\end{tikzpicture}\end{document}
