@@ -1,0 +1,208 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Journal Article
+% LaTeX Template
+% Version 1.4 (15/5/16)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com) with extensive modifications by
+% Vel (vel@LaTeXTemplates.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[twoside,twocolumn]{article}
+
+\usepackage{blindtext} % Package to generate dummy text throughout this template
+
+\usepackage[sc]{mathpazo} % Use the Palatino font
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\linespread{1.05} % Line spacing - Palatino needs more space between lines
+\usepackage{microtype} % Slightly tweak font spacing for aesthetics
+
+\usepackage[english]{babel} % Language hyphenation and typographical rules
+
+\usepackage[hmarginratio=1:1,top=32mm,columnsep=20pt]{geometry} % Document margins
+\usepackage[hang, small,labelfont=bf,up,textfont=it,up]{caption} % Custom captions under/above floats in tables or figures
+\usepackage{booktabs} % Horizontal rules in tables
+
+\usepackage{lettrine} % The lettrine is the first enlarged letter at the beginning of the text
+
+\usepackage{enumitem} % Customized lists
+\setlist[itemize]{noitemsep} % Make itemize lists more compact
+
+\usepackage{abstract} % Allows abstract customization
+\renewcommand{\abstractnamefont}{\normalfont\bfseries} % Set the "Abstract" text to bold
+\renewcommand{\abstracttextfont}{\normalfont\small\itshape} % Set the abstract itself to small italic text
+
+\usepackage{titlesec} % Allows customization of titles
+\renewcommand\thesection{\Roman{section}} % Roman numerals for the sections
+\renewcommand\thesubsection{\roman{subsection}} % roman numerals for subsections
+\titleformat{\section}[block]{\large\scshape\centering}{\thesection.}{1em}{} % Change the look of the section titles
+\titleformat{\subsection}[block]{\large}{\thesubsection.}{1em}{} % Change the look of the section titles
+
+\usepackage{fancyhdr} % Headers and footers
+\pagestyle{fancy} % All pages have headers and footers
+\fancyhead{} % Blank out the default header
+\fancyfoot{} % Blank out the default footer
+\fancyhead[C]{Running title $\bullet$ May 2016} % Custom header text
+\fancyfoot[RO,LE]{\thepage} % Custom footer text
+
+\usepackage{titling} % Customizing the title section
+
+\usepackage{hyperref} % For hyperlinks in the PDF
+
+\usepackage{graphicx}
+
+\usepackage{csquotes}
+\usepackage[style=ieee,backend=bibtex]{biblatex}
+
+\bibliography{biblio}
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\setlength{\droptitle}{-4\baselineskip} % Move the title up
+
+\pretitle{\begin{center}\normalsize Comments on : \\
+\Huge\bfseries} % Article title formatting
+\posttitle{\end{center}} % Article title closing formatting
+\title{\citetitle{westoby_structure--motion_2012}} % Article title
+\author{%
+\textsc{Virgile Daugé}\thanks{A thank you or further information} \\[1ex] % Your name
+\normalsize University of Lorraine \\ % Your institution
+\normalsize \href{mailto:virgile.dauge@inria.fr}{virgile.dauge@inria.fr} % Your email address
+%\and % Uncomment if 2 authors are required, duplicate these 4 lines if more
+%\textsc{Jane Smith}\thanks{Corresponding author} \\[1ex] % Second author's name
+%\normalsize University of Utah \\ % Second author's institution
+%\normalsize \href{mailto:jane@smith.com}{jane@smith.com} % Second author's email address
+}
+\date{\today} % Leave empty to omit a date
+\renewcommand{\maketitlehookd}{%
+
+%----------------------------------------------------------------------------------------
+%	Abstract
+%----------------------------------------------------------------------------------------
+
+\begin{abstract}
+\noindent This paper outlines a low-cost, user-friendly photogrammetric technique for obtaining
+high-resolution datasets at a range of scales, termed
+‘
+Structure-from-Motion
+’
+(SfM). The goal of my little review was to gain a basic understanding of known photogrammetry techniques, to be able indentify the impact of our positioning method in concrete applications.
+I was mainly searching for an estimation of motion needed to cover and reconstruct 3D environement, in order to compare our work with well known odometry/SLAM solutions.
+\end{abstract}
+}
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+% Print the title
+\maketitle
+
+%----------------------------------------------------------------------------------------
+%	ARTICLE CONTENTS
+%----------------------------------------------------------------------------------------
+
+\section{Introduction}
+
+\lettrine[nindent=0em,lines=3]{I}n this paper, we report on an emerging, low-cost photogrammet-
+ric method for high resolution topographic reconstruction, ideally
+suited for low-budget research and application in remote areas.
+‘
+Structure-from-Motion
+’
+(SfM) operates under the same basic tenets
+as stereoscopic photogrammetry, namely that 3-D structure can be
+resolved from a series of overlapping, offset images.However,
+it differs fundamentally from conventional photogrammetry, in that
+the geometry of the scene, camera positions and orientation is solved
+automatically without the need to specify a priori, a network of tar-
+gets which have known 3-D positions. Instead, these are solved si-
+multaneously using a highly redundant, iterative bundle adjustment
+procedure, based on a database of features automatically extracted
+from a set of multiple overlapping image. \\
+the approach is most suited to sets of images with a
+high degree of overlap
+
+there exist few quantitative assessments of the quality of terrain
+products derived from this approach.
+\blindtext
+
+%------------------------------------------------
+
+\section{Methods}
+Camera pose and scene geometry are reconstructed simultaneously through the automatic
+identification of matching features in multiple images. Scale Invariant Feature Transform (SIFT) is used for features extraction.
+\\
+Following keypoint identification and descriptor assignment, the sparse bundle adjustment system Bundler (
+Snavely et al., 2008)is used to estimate camera pose and extract a low-density or
+‘
+sparse
+’
+point cloud.
+\\
+Keypoints in multiple images are matched using approximate nearest neighbour (
+Arya et al., 1998) and Random Sample Consensus (RANSAC;Fischler and Bolles, 1987) algorithms, and
+‘
+tracks
+’
+linking specific keypoints in a set of pictures are established.
+\\
+Tracks
+comprising a minimum of two keypoints and three images are used
+for point-cloud reconstruction, with those which fail to meet these
+criteria being automatically discarded
+\\
+transient features such as people moving across the
+area of interest are automatically removed from the dataset before
+3-D reconstruction begins
+\\
+Keypoint correspondences place constraints on camera pose orientation, which is reconstructed using a similarity transformation,
+while minimisation of errors is achieved using a non-linear least-
+squares solution
+\\
+Finally, triangulation is used to estimate the 3-D point positions and incrementally reconstruct scene geometry,
+fixed into a relative coordinate system
+\\
+the transformation of SfM image-space coordinates to an absolute coordinate system
+can be achieved using a 3-D similarity transform based on a small number of known
+ground-control points (GCPs)
+\\
+it is often easier to deploy physical targets with a high
+contrast and clearly defined centroid in the field before acquiring images
+%------------------------------------------------
+
+\section{Results}
+After manual editing, the sparse dataset comprised 1.7×10e5
+points, while the dense reconstruction produced 11.3×10e6 points; a 64-fold increase. This is comparable to the
+TLS survey density with 11.7×10e6 survey points over the same area.
+\\
+No real error comparison ?
+
+%------------------------------------------------
+
+\section{Discussion}
+As the above examples demonstrate, the apparent logistical advan-
+tages of SfM (limited hardware needs and portability) are, at least in
+part, offset by the lengthy processing times compared to
+‘
+data-ready
+’
+methods such as TLS or GPS. Keypoint descriptor extraction, matching,
+and sparse and dense reconstruction algorithms are computationally
+demanding.
+
+\printbibliography
+\end{document}
