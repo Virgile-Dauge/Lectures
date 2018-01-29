@@ -2,7 +2,7 @@
 \usepackage{verbatim}
 
 \usetikzlibrary{calc}
-\def\beaconsystem[#1][#2](#3:#4:#5:#6)% Syntax: [focus draw options][large angle draw options](number of nodes:radius:sensor error:focus angle)
+\def\beaconsystem[#1][#2](#3:#4:#5:#6)% Syntax: [focus draw options][large angle draw options](number of nodes:radius:sensor error:focus angle:active angle-/2around270°)
 {
   \begin{tikzpicture}
    [
@@ -42,10 +42,11 @@
       \draw[#2] ([shift=({270-(#6/2)+(\s-1)*#6+180-#5*3}:#3-#4)]\s) arc ({270-(#6/2)+(\s-1)*#6+180-#5*3}:{270-(#6/2)+(\s-1)*#6+180+#5*3}:#3-#4);
 
     }
+    \node (origin) at (0,0) [point, label = {below right:$Drone$}]{};
     \draw[dashed] (1) -- (2);
     \draw[dashed] (origin) -- (2);
     \draw[dashed] (origin) -- (1);
-    \node (origin) at (0,0) [point, label = {below right:$Drone$}]{};
+
   \end{tikzpicture}
 }
 \begin{document}
@@ -53,15 +54,4 @@
 \beaconsystem[thin,red][dashed,red](6:1:0.1:15)
 \beaconsystem[thin,red][dashed,red](16:1:0.1:15)
 \twobeaconsystem[thin,red][dashed,red](2:0.4:20:60)
-% \begin{tikzpicture}
-%  [
-%   scale=3,
-%   >=stealth,
-%   point/.style = {draw, circle,  fill = black, inner sep = 1pt},
-%   dot/.style   = {draw, circle,  fill = black, inner sep = .2pt},
-%  ]
-%
-%  % \beaconsystem[thin,red][dashed,red](50:2:0.1:15)% Syntax: [focus draw options][large angle draw options](number of nodes:radius:sensor error:focus angle)
-%
-% \end{tikzpicture}
 \end{document}
