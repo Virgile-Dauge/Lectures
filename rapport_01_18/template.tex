@@ -132,9 +132,29 @@ La première nécessité est de donner au système cyber-physique la capacité d
 \section{Etat de L'art}
 Le SLAM étant une tâche complexe, il est souvent composé de nombreux algorithmes interagissant ensemble.
 Une solution complète repose souvent sur le travail de plusieurs équipes, et est souvent adaptée à un cadre bien particulier.
+La première difficulté à franchir consiste à estimer correctement sa position, et par conséquent les déplacements successifs de notre robot.
+Sera donc premièrement proposé un rapide aperçu des techniques d'odometrie.
 L'enchevêtrement de solutions actuellement connues forme un ensemble très hétérogène et difficile à analyser.
-Il m'a cependant parut pertinent de les diviser en deux grandes catégories : Plausibilité maximum \footnote{Maximum likelihood}
-et Intégration au sein d'un graphe \footnote{Graph SLAM aussi appelé Smoothing and mapping}.
+Il m'a cependant parut pertinent de les diviser en deux grandes catégories : Plausibilité maximum (Maximum likelihood)
+et Intégration au sein d'un graphe (Graph SLAM aussi appelé Smoothing and mapping).
+\subsection{Techniques d'odometrie}
+Il existe un vaste panel de combinaison algorithmes permettant d'estimer un déplacement à partir des capteurs embarquables dans un système cyber-physique mobile.
+Ne seront abordés ici que les solutions jugées pertinantes, adaptées à nos besoins.
+Il existe un capteur que l'on retrouve sur tous les drones, la centrale inertielle. Cette dernière permet de mesurer les accélérations subies par le système,
+donnant ainsi une indication de déplacement. Bien que difficiles à calibrer et présentant une estimation assez grossière et fortement sujette aux
+dérives temporelle\footnote{Les erreurs s'accumulent au fur et à mesure sans possibilité de correction, pouvant mener à des erreurs de grande amplitude.},
+les IMU servent souvent de base à d'autres estimateurs,
+fournissant ainsi une solution de départ, permettant de gagner du temps de calcul et parfois d'améliorer grandement la précision du résultat final.
+Autre capteur abordable et fréquemment présent sur des drones, la caméra (qu'elle soit monoculaire, stéréo ou omnidirectionnelle) permet de determiner une
+estimation de mouvement, basée sur l'analyse d'amers\footnote{Ensemble de pixels formant une structure facilement identifiable,
+ et stable malgré les potentiels changements de points de vue.}\cite{lindeberg_feature_1998} puis sur l'appairage de ces amers\cite{baumberg_reliable_2000}
+entre les différentes images.
+Capteur en pleine démocratisation, le Lidar (laser detection and ranging) produit désormais des nuages de points denses, à une fréquence élevée (~10Hz),
+avec une portée d'une centaine de mètres sur 360 degrés avec une précision de $\pm 3cm$. L'appairage de points est par la suite appliqué pour estimer
+la transformation entre deux scans successifs. L'algorithme le plus couramment utilisé est Iterative Closest Point, il consiste à appairer les point puis cherchant
+à minimiser de manière itérative l'ecart de position entre les couples de points. Il existe en revanche une multitude d'implémentation, et les résultats sont fortement
+dépendants de l'estimation initiale ansi que des nombreux paramètres du processus (échantillonnage, exclusion des points abérants etc...)\cite{pomerleau_review_2015}.
+
 \subsection{Maximum Likelihood}
 L'approche de plausibilité maximale consiste à analyser des données de capteurs à chaque étape, afin de determiner
 la solution la plus probable et de l'intégrer directement à la carte, souvent par fusion directe, interdisant tout
@@ -155,25 +175,51 @@ la nécessité de mettre à jour l'intégralité du réseau à chaque étape, me
 les capacitées limitées embarquées dans un robot, surtout si l'on considère l'accumulation des mesures au fur et à mesure de l'exploration.
 Afin de palier à ce problème, une équipe du Georgia Institute of Technology a dévellopé une méthode itérative\cite{kaess_isam:_2008} basée sur des réseau Bayesiens
 et utilisant un graphe de factorisation factorisant la distribution de probabilités. En exploitant de surcroit les possibilités d'optimisation offertes
-par les matrices creuses, cela permet de mettre à jour plus efficacement et rapidement le graphe. De plus, il est seulement nécessaire de réaliser
+par les matrices creuses, cela permet de mettre à jour plus efficacement et rapidement le graphe (Certaines optimisations on été apportées\cite{kaess_isam2:_2012}). De plus, il est seulement nécessaire de réaliser
 des calculs pour les nouvelles mesures et non plus l'intégralité des observations depuis le début de l'expérience.S'il est possible d'utiliser ces algorithmes en temps réel,
 il reste toutefois difficile d'obtenir une estimation correcte de la covariance nécessaire à l'ajustement des mesures entres elles.
 Dans le cas de l'ICP, certaines solutions analytiques permettent d'obtenir une estimation en 2D \cite{censi_accurate_2007} et en 3D \cite{prakhya_closed-form_2015}.
-Cependant, les covariances estimées sont parfois erronées, tant en direction qu'en échelle. Ce qui conduira nécessairement à une mauvaise intégration des mesures dans le graphe.
+Cependant, les covariances estimées sont parfois erronées, tant en direction qu'en échelle. Ce qui conduira nécessairement à une mauvaise intégration des mesures dans
+le graphe.
+Différents algorithmes graph-based exploitent des capteurs différents, une centralle inertielle (IMU) \cite{robertson_simultaneous_2009}, une simple caméra monuculaire
+\cite{mur-artal_orb-slam:_2015}\cite{engel_lsd-slam:_2014},
+une caméra stéréo \cite{engel_large-scale_2015} ou encore omnidirectionelle \cite{caruso_large-scale_2015}. Il est également possible d'ajouter un mécanisme de
+"loop closure", consistant à détécter un élément de l'environnement
+déjà connu et ajouter un lien avec la position fraîchement mesurée. Cela permet parfois de corriger une partie du drift (accumulation d'erreurs au fil du temps)
+et ainsi maintenir l'erreur de positionnement dans une intervalle acceptable.
 
 
 %------------------------------------------------
 
-\section{Results}
-\blindtext
+\section{Analyse}
+Comme nous l'avons montré précédemment, les différentes techniques de SLAM permettent d'exploiter différents capteurs et de produire une estimation de position plus
+ou moins précise, mais toujours soumise aux dérives. En effet, même les techniques basées sur des graphes, censées corriger ce problème de dérive,
+souffrent d'une mauvaise estimation de la covariance. La position ainsi estimée ne permet pas d'établir une cartographie précise sur une grande échelle,
+subissant directement les effets de la dérive. Cette estimation de position de notre système est donc le goulet d'étranglement actuel de la robotique autonome,
+tout particulièrement quand la cartographie ne sert pas uniquement pour la navigation mais est également l'objectif final de la mission. Afin de réduire au maximum
+cette erreur, plusieurs pistes sont envisageables. Réduire au maximum les erreurs de mesures, en introduisant un mécanisme de mesure de position plus précis. Autre piste,
+êtres capables d'estimer de manière précise l'erreur de chaque mesure, afin de maximiser l'impact du graphe Bayésien sur la réduction de la dérive.
+Enfin, s'attaquer à la source même du problème de dérive, en essayant de contourner la nature dynamique de nos mesures.
+
+\section{Notre approche}
+Nous développons actuellement un système de positionnement tentant de palier aux difficultés évoquées précedement. La première étape consiste à évaluer
+l'erreur de chaque mesure en fonction de la position du drone dans son environnement et du modèle d'erreur des capteurs employés, couplés avec leurs positions. Le résultat de cette opération
+est construit sous forme de "Heatmap" d'erreur, dont la précision est réglable selon la puissance de calcul disponible. La figure \ref{fig:heatmap3D} illustre un exemple construit pour une
+erreur de capteur $e$ (en mètres) dépendante uniquement de la distance de mesure $d$ (en mètres) tel que :
+\begin{equation} e = 0.01 + \frac{0.02*d}{5} \end{equation}
+Ce calcul d'erreur embrasse un trimple emploi. Il permettra à la fois de verifier/d'infirmer la validité de notre solution
+selon les capacités actuelles des capteurs en le comparant aux algorithmes existants. De minimiser l'erreur de positionnement
+en guidant l'algorithme d'exploration, évitant ainsi les mesures approximatives. Et enfin de renseigner plus précisément le graphe de factorisation
+
+
+\begin{figure}
+ \centering
+ \includegraphics[width=0.5\textwidth]{heatmap}
+ \caption{Heatmap d'erreur générée (le modèle d'erreur du capteur est ici arbitraire : 1cm + 2cm tous les 5m)}
+ \label{fig:heatmap3D}
+\end{figure}
 
 %------------------------------------------------
-
-\section{Discussion}
-\subsection{Current state}
-\blindtext
-\subsection{Possibles enhancements}
-\blindtext
 
 \printbibliography
 \end{document}
