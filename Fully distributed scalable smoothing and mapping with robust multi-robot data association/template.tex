@@ -65,7 +65,7 @@
 \usepackage{csquotes}
 \usepackage[style=ieee,backend=bibtex]{biblatex}
 
-\bibliography{biblio}
+\bibliography{Thesis}
 
 %----------------------------------------------------------------------------------------
 %	TITLE SECTION
@@ -120,11 +120,11 @@ fusion (DDF). Most of the work is comming from collaborative localization commun
 
 Other approaches :
 \begin{itemize}
-  \item Smoothing and mapping \cite{andersson_c-sam:_2008}
-  \item relative pose graphs \cite{kim_multiple_2010}
-  \item particle filters \cite{howard_multi-robot_2006,carlone_rao-blackwellized_2010}
-  \item manifold representaions \cite{howard_multirobot_2006}
-  \item divide and conquer with locally optimized maps \cite{ni_multi-level_2010}
+ \item Smoothing and mapping \cite{andersson_c-sam:_2008}
+ \item relative pose graphs \cite{kim_multiple_2010}
+ \item particle filters \cite{howard_multi-robot_2006,carlone_rao-blackwellized_2010}
+ \item manifold representaions \cite{howard_multirobot_2006}
+ \item divide and conquer with locally optimized maps \cite{ni_multi-level_2010}
 \end{itemize}
 
 Single Robot data association has been studied extensively from
@@ -172,19 +172,19 @@ other robots, which can solve for the full neighborhood map.
 \section{DDF-SAM}
 Composed of 3 main modules :
 \begin{description}
-  \item[Local Mapping Module
-:]  optimizes  for  the  full  trajec-
-tory and landmark map, then compresses a local map
-for broadcast to neighboring robots.
+ \item[Local Mapping Module
+ :]  optimizes  for  the  full  trajec-
+ tory and landmark map, then compresses a local map
+ for broadcast to neighboring robots.
  \item [Communications Module
-:]  updates  a  cache  of  con-
-densed maps from many robots.
-\item [Neighborhood Mapping Module
-:] jointly estimates over
-landmarks in the robot’s neighborhood graph and rel-
-ative coordinate frames to yield a
-neighborhood map
-.
+ :]  updates  a  cache  of  con-
+ densed maps from many robots.
+ \item [Neighborhood Mapping Module
+ :] jointly estimates over
+ landmarks in the robot’s neighborhood graph and rel-
+ ative coordinate frames to yield a
+ neighborhood map
+ .
 \end{description}
 
 %------------------------------------------------
@@ -218,16 +218,16 @@ of  similar  triangles.
 They choose to use a Delaunay triangulation as a geometric
 feature  because  :
 \begin{itemize}
-  \item it  is  unique,
-  \item invariant  to  reference  frame,
-  \item and  biases  the  set  of  putatives  towards  conservative  data
-  associations
-  \item can be computed in $\Theta
-(
-n
-log
-n
-)$
+ \item it  is  unique,
+ \item invariant  to  reference  frame,
+ \item and  biases  the  set  of  putatives  towards  conservative  data
+       associations
+ \item can be computed in $\Theta
+       (
+       n
+       log
+       n
+       )$
 \end{itemize}
 Then they matches the two sets of Triangles with RANSAC \cite{fischler_random_1981}.
 
